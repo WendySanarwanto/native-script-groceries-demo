@@ -10,14 +10,23 @@ android {
     generatedDensities = []
     applicationId = "org.nativescript.Groceries" 
     
+    // fix issue multiDex
+    multiDexEnabled true    
     //override supported platforms
     // ndk {
     //       abiFilters.clear()
     //   		abiFilters "armeabi-v7a"
  		// }
   
-  }  
+  } 
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
+  }
+  // fix issue outofmemory
+  dexOptions {
+    javaMaxHeapSize "4g"
   }  
+  project.ext {
+    googlePlayServicesVersion = "16.0.1"
+  }
 } 
