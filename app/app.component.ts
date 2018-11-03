@@ -23,9 +23,9 @@ export class AppComponent implements OnInit {
     firebase.init({
       persist: true      
     }).then(instance => {
-      console.log("firebase.init done");
+      console.log("[DEBUG] - <AppComponent.ngOnInit> firebase.init done !");
     }, error => {
-      console.log(`firebase.init error: \n`);
+      console.log(`[ERROR] - <AppComponent.ngOnInit> firebase.init error: \n`);
       console.dir(error);
     });
   }
@@ -40,17 +40,22 @@ export class AppComponent implements OnInit {
 
   login() {
     // TOOD: Implement this
+    const { email, password } = this.user;
+    console.log(`[DEBUG] - <AppComponent.login> Logging in using this following credentials, email: ${email}, password: ${password}`);
   }
 
   signUp() {
-    this.userService.register(this.user);
-      // .subscribe(() => {
-      //   alert("Your account was successfully created.");
-      //   this.toggleDisplay();
-      // }, (err) => {
-      //   console.dir(err);
-      //   alert("Unfortunately we were unable to create your account.");
-      // });
+    this.userService.register(this.user)
+      .then(response => {
+        console.log(`[DEBUG] - <AppComponent.signUp> Signing up '${this.user.email}' is success. Respone: \n`);
+        console.dir(response);
+        this.user.password = '';
+        this.toggleDisplay();
+      })
+      .catch(error => {
+        console.log(`[ERROR] - <AppComponent.signUp> Signing up '${this.user.email}' is Failing. Details: \n`);
+        console.dir(error);
+      });
   }
 
   toggleDisplay() {

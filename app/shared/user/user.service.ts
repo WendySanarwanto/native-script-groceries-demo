@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-// import * as firebase from "nativescript-plugin-firebase";
-// const firebase = require("nativescript-plugin-firebase");
+import * as firebase from 'nativescript-plugin-firebase';
+import { createUser, CreateUserOptions, User as FirebaseUser } from 'nativescript-plugin-firebase';
+
+// import firebase = require("nativescript-plugin-firebase");
 
 import { Observable } from "rxjs";
 // import "rxjs/add/operator/do";
@@ -14,32 +16,14 @@ import { Config } from '../config';
 export class UserService {
   constructor(private http: HttpClient) {
     console.log(`[DEBUG] - UserService.constructor is called !!!!!!!!!!!!!!!!!!!!!!!!!!!`);
-    // firebase.init({
-    //   persist: true      
-    // }).then(instance => {
-    //   console.log("firebase.init done");
-    // }, error => {
-    //   console.log(`firebase.init error: \n`);
-    //   console.dir(error);
-    // });
   }
 
-  register(user: User) {//: Observable<Object> {
-    // let headers = new HttpHeaders({
-    //   "Content-Type": "application/json"
-    // });
-    // const data = {
-    //   Username: user.email,
-    //   Email: user.email,
-    //   Password: user.password      
-    // };
-    // return this.http.post(
-    //   `${Config.apiUrl}Users`,
-    //   { data },
-    //   { headers }
-    // );
-    // .catch(this.handleErrors);
-    alert(`About to register: ${user.email}`);
+  register(user: User): Promise<FirebaseUser> {
+    const createUserParam: CreateUserOptions = {
+      email: user.email,
+      password: user.password
+    };
+    return createUser(createUserParam)
   }
 
   // handleErrors(error) {
